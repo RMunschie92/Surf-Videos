@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './styles/index.css';
+import SurfVideos from './components/SurfVideos';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-  <App />
+  <SurfVideos />
   , document.getElementById('root')
 );
 registerServiceWorker();
