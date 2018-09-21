@@ -4,10 +4,11 @@ import '../styles/surfVideos.css';
 class SurfVideos extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       error: null,
       isLoaded: false,
-      query: "surf",
+      query: "surf team",
       items: []
     };
   }
@@ -15,25 +16,35 @@ class SurfVideos extends Component {
   API_KEY = "AIzaSyD1cHSIGEpQiTyYr-cuYiWu4cbV7YXIz24";
 
   componentDidMount() {
-    fetch(`https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet&type=video&q=${this.state.query}&maxResults=50`)
+    fetch(`https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&type=video&q=${this.state.query}&maxResults=50`)
       .then(res => res.json())
       .then(result => {
-          this.setState({ isLoaded: true, items: result.items });
+          this.setState({ 
+            isLoaded: true, 
+            items: result.items 
+          });
         }, error => {
-          this.setState({ isLoaded: true, error });
+          this.setState({ 
+            isLoaded: true,
+            error 
+          });
         });
   }
 
   render() {
-    console.log("Items: ", this.state.items);
 
     this.videoList = this.state.items.map((video, index) => (
-      <li className="video" key={index}>
-        <h3>{video.snippet.title}</h3>
-        <img src={video.snippet.thumbnails.default} alt={video.snippet.title}/>
-        <p>{video.snippet.description}</p>
+      <li className="videoCard" key={index}>
+        <h3 className="videoTitle">{video.snippet.title}</h3>
+        <img
+          src={video.snippet.thumbnails.medium.url}
+          width={video.snippet.thumbnails.medium.width}
+          height={video.snippet.thumbnails.medium.height}
+          alt={video.snippet.title}
+        />
+        <p className="description">{video.snippet.description}</p>
       </li>
-    ))
+    ));
 
     return (
       <div className="App">
@@ -41,7 +52,7 @@ class SurfVideos extends Component {
           <h1 className="title">Welcome to Surf Videos!</h1>
           <h3 className="slogan">Hang ten, hombre</h3>
         </header>
-        <ul>
+        <ul className="videoList">
           {this.videoList}
         </ul>
       </div>

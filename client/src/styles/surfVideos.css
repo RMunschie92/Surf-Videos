@@ -16,3 +16,20 @@
 .App-intro {
   font-size: large;
 }
+
+.videoList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.videoCard {
+  border: 1px solid #d6d6d6;
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
