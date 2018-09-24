@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/surfVideos.css';
 
-class SurfVideos extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -19,22 +20,23 @@ class SurfVideos extends Component {
     fetch(`https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&type=video&q=${this.state.query}&maxResults=50`)
       .then(res => res.json())
       .then(result => {
-          this.setState({ 
-            isLoaded: true, 
-            items: result.items 
-          });
-        }, error => {
-          this.setState({ 
-            isLoaded: true,
-            error 
-          });
+        this.setState({
+          isLoaded: true,
+          items: result.items
         });
+      }, error => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      });
   }
 
   render() {
 
     this.videoList = this.state.items.map((video, index) => (
       <li className="videoCard" key={index}>
+        <Link to={{ pathname: `/theater/${video.id.videoId}`, state: { currentVideo: video }}}>Watch</Link>
         <h3 className="videoTitle">{video.snippet.title}</h3>
         <img
           src={video.snippet.thumbnails.medium.url}
@@ -47,11 +49,7 @@ class SurfVideos extends Component {
     ));
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="title">Welcome to Surf Videos!</h1>
-          <h3 className="slogan">Hang ten, hombre</h3>
-        </header>
+      <div className="Home">
         <ul className="videoList">
           {this.videoList}
         </ul>
@@ -60,4 +58,4 @@ class SurfVideos extends Component {
   }
 }
 
-export default SurfVideos;
+export default Home;
