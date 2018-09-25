@@ -10,26 +10,75 @@ class Home extends Component {
       error: null,
       isLoaded: false,
       query: '',
-      items: []
+      items: [],
+      pageNumber: 1,
+      currentPageCode: '',
+      previousCode: '',
+      nextCode: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePreviousClick = this.handlePreviousClick.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
   }
 
   API_KEY = "AIzaSyD1cHSIGEpQiTyYr-cuYiWu4cbV7YXIz24";
 
   fetchData() {
     let q;
-    this.state.query === "" ? (q = "Surf") : (q = "Surf ".concat(this.state.query));
+    this.state.query === "" ? 
+      q = "Surf" : 
+      q = "Surf ".concat(this.state.query);
+    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=viewCount&maxResults=10&type=video&q=${q}`; 
     console.log("q: ", q);
-    fetch(`https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&type=video&q=${q}&maxResults=50`)
+    fetch(url)
       .then(res => res.json())
       .then(result => {
-          this.setState({ isLoaded: true, items: result.items });
+          result.hasOwnProperty('prevPageToken') ?
+            this.setState({
+              isLoaded: true,
+              items: result.items,
+              previousCode: result.prevPageToken,
+              nextCode: result.nextPageToken
+            }) :
+            this.setState({
+              isLoaded: true,
+              items: result.items,
+              nextCode: result.nextPageToken
+            });
+            console.log(result);
         }, error => {
           this.setState({ isLoaded: true, error });
-        });
+        })
+      .then(window.scrollTo(0,0));
+  }
+
+  fetchPage(direction) {
+    let q = "Surf ".concat(this.state.query);
+    let tokenCode;
+    direction === 'previous' ? tokenCode = this.state.previousCode : tokenCode = this.state.nextCode;
+    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=viewCount&pageToken=${tokenCode}&maxResults=10&type=video&q=${q}`
+    fetch(url)
+      .then(res => res.json())
+      .then(result => {
+        result.hasOwnProperty('prevPageToken') ?
+          this.setState({
+            isLoaded: true,
+            items: result.items,
+            previousCode: result.prevPageToken,
+            nextCode: result.nextPageToken
+          }) :
+          this.setState({
+            isLoaded: true,
+            items: result.items,
+            nextCode: result.nextPageToken
+          })
+          console.log(result);
+      }, error => {
+        this.setState({ isLoaded: true, error });
+      })
+      .then(window.scrollTo(0,0));
   }
 
   componentDidMount() {
@@ -42,11 +91,29 @@ class Home extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.setState({ pageNumber: 1 });
     this.fetchData();
   }
 
-  render() {
+  handlePreviousClick() {
+    let currentPage = this.state.pageNumber;
+    this.setState({
+      pageNumber: currentPage - 1,
+      currentPageCode: this.state.previousCode
+    });
+    this.fetchPage('previous');
+  }
 
+  handleNextClick() {
+    let currentPage = this.state.pageNumber;
+    this.setState({ 
+      pageNumber: currentPage + 1,
+      currentPageCode: this.state.nextCode
+    });
+    this.fetchPage('next');
+  }
+
+  render() {
     this.videoList = this.state.items.map((video, index) => (
       <li className="videoCard" key={index}>
         <Link to={{ pathname: `/theater/${video.id.videoId}`, state: { currentVideo: video }}}>Watch</Link>
@@ -73,6 +140,11 @@ class Home extends Component {
           <button>Search</button>
         </form>
         <ul className="videoList">{this.videoList}</ul>
+        <footer>
+          <p className={this.state.pageNumber > 1 ? 'show' : 'hide'} onClick={this.handlePreviousClick}>Previous Page</p>
+          <h3>{this.state.pageNumber}</h3>
+          <p onClick={this.handleNextClick}>Next Page</p>
+        </footer>
       </div>
     ) 
   }

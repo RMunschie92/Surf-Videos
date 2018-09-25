@@ -12,6 +12,8 @@ class Theater extends Component {
       videoTitle: "",
       videoHtml: []
     };
+
+    this.handleBackClick = this.handleBackClick.bind(this);
   }
 
   API_KEY = "AIzaSyD1cHSIGEpQiTyYr-cuYiWu4cbV7YXIz24";
@@ -19,11 +21,7 @@ class Theater extends Component {
   videoId = this.props.location.state.currentVideo.id.videoId;
 
   componentDidMount() {
-    fetch(
-      `https://www.googleapis.com/youtube/v3/videos?id=${this.videoId}&key=${
-        this.API_KEY
-      }&part=player,snippet&type=video`
-    )
+    fetch(`https://www.googleapis.com/youtube/v3/videos?id=${this.videoId}&key=${this.API_KEY}&part=player,snippet&type=video`)
       .then(res => res.json())
       .then(
         result => {
@@ -40,6 +38,10 @@ class Theater extends Component {
       );
   }
 
+  handleBackClick() {
+    window.history.back();
+  }
+
   render() {
     
     let url = `//www.youtube.com/embed/${this.videoId}`; 
@@ -50,6 +52,7 @@ class Theater extends Component {
           <Link className="logoLink" to="/">Surf Videos</Link>
         </header>
         <Link className="homeLink" to="/">Go Home</Link>
+        <p onClick={this.handleBackClick}>Back to List</p>
         <div className="playerContainer">
           <iframe title={this.state.videoTitle} width="720" height="480" src={url} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen />
         </div>

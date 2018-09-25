@@ -34,3 +34,24 @@ form {
   align-items: center;
   width: 50%;
 }
+
+footer {
+  display: flex;
+  /* justify-content: center; */
+  margin: 1em;
+  padding-bottom: .5em;
+  /* text-align: center; */
+}
+
+footer p {
+  margin: 1em;
+  cursor: pointer;
+}
+
+.show {
+  display: inline-block;
+}
+
+.hide {
+  display: none;
+}
