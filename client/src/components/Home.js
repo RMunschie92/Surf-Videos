@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/surfVideos.css';
+import '../styles/home.css';
 
 class Home extends Component {
   constructor(props) {
@@ -48,13 +48,15 @@ class Home extends Component {
       </li>
     ));
 
-    return (
+    return(
       <div className="Home">
-        <ul className="videoList">
-          {this.videoList}
-        </ul>
+        <header className="header">
+          <h1 className="title">Welcome to Surf Videos!</h1>
+          <h3 className="slogan">Hang ten, hombre</h3>
+        </header>
+        <ul className="videoList">{this.videoList}</ul>
       </div>
-    );
+    ) 
   }
 }
 

@@ -1,0 +1,25 @@
+.theaterHeader {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  padding-bottom: 20px;
+  margin-bottom: 1em;
+  background-color: #222;
+  color: white;
+}
+
+.logoLink {
+  margin-left: 1.25em;
+  text-decoration: none;
+  color: white;
+}
+
+.homeLink {
+  margin-left: 1.25em;
+  text-decoration: none;
+}
+
+.playerContainer {
+  margin-top: 2.5em;
+  text-align: center;
+}
