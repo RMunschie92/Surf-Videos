@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/theater.css';
+import timeago from "timeago.js";
 
 class Theater extends Component {
   constructor(props) {
@@ -9,8 +10,10 @@ class Theater extends Component {
     this.state = {
       error: null,
       isLoaded: false,
+      video: "",
       videoTitle: "",
-      videoHtml: []
+      videoPublishedAt: "",
+      comments: []
     };
 
     this.handleBackClick = this.handleBackClick.bind(this);
@@ -20,22 +23,44 @@ class Theater extends Component {
 
   videoId = this.props.location.state.currentVideo.id.videoId;
 
-  componentDidMount() {
-    fetch(`https://www.googleapis.com/youtube/v3/videos?id=${this.videoId}&key=${this.API_KEY}&part=player,snippet&type=video`)
+  fetchVideo() {
+    fetch(`https://www.googleapis.com/youtube/v3/videos?key=${this.API_KEY}&id=${this.videoId}&part=player,snippet&type=video`)
       .then(res => res.json())
       .then(
         result => {
           this.setState({
-            videoTitle: result.items[0].snippet.title
+            isLoaded: true,
+            video: result.items[0].snippet,
+            videoTitle: result.items[0].snippet.title,
+            videoPublishedAt: result.items[0].snippet.publishedAt
+          });
+          console.log(result.items[0].snippet);
+        },
+        error => {
+          this.setState({ isLoaded: true, error });
+        }
+      );
+  }
+
+  fetchComments() {
+    fetch(`https://www.googleapis.com/youtube/v3/commentThreads?key=${this.API_KEY}&textFormat=plainText&part=snippet&videoId=${this.videoId}&maxResults=25`)
+      .then(res => res.json())
+      .then(
+        result => {
+          this.setState({
+            isLoaded: true,
+            comments: result.items
           });
         },
         error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          this.setState({ isLoaded: true, error });
         }
       );
+  }
+
+  componentDidMount() {
+    this.fetchVideo();
+    this.fetchComments();
   }
 
   handleBackClick() {
@@ -43,21 +68,60 @@ class Theater extends Component {
   }
 
   render() {
-    
-    let url = `//www.youtube.com/embed/${this.videoId}`; 
+    let url = `//www.youtube.com/embed/${this.videoId}`;
+    let timeagoInstance = timeago();
 
-    return (
-      <div className="Theater">
+    function formatCommentTime(timeStamp) {
+      timeStamp = timeStamp.slice(0, 10);
+      timeStamp = timeagoInstance.format(timeStamp);
+      return timeStamp;
+    }
+
+    this.commentList = this.state.comments.map((comment, index) => (
+      <li className="comment" key={index}>
+        <img
+          className="profilePicture"
+          src={comment.snippet.topLevelComment.snippet.authorProfileImageUrl}
+          alt={`${comment.snippet.topLevelComment.snippet.authorDisplayName}'s profile`}
+        />
+        <div className="commentMain">
+          <div className="nameAndTimeAgo">
+            <p className="name">{comment.snippet.topLevelComment.snippet.authorDisplayName}</p>
+            <p className="timeAgo">{formatCommentTime(comment.snippet.topLevelComment.snippet.publishedAt)}</p>
+          </div>
+          <p className="commentText">{comment.snippet.topLevelComment.snippet.textDisplay}</p>
+        </div>
+      </li>
+    ));
+
+    function formatVideoTime(timeStamp) {
+      if (timeStamp !== '') {
+        timeStamp = timeStamp.slice(0, 10);
+      }
+      return timeStamp;
+    }
+
+    return <div className="Theater">
         <header className="theaterHeader">
-          <Link className="logoLink" to="/">Surf Videos</Link>
+          <Link className="logoLink" to="/">
+            Surf Videos
+          </Link>
         </header>
-        <Link className="homeLink" to="/">Go Home</Link>
+        <Link className="homeLink" to="/">
+          Go Home
+        </Link>
         <p onClick={this.handleBackClick}>Back to List</p>
         <div className="playerContainer">
           <iframe title={this.state.videoTitle} width="720" height="480" src={url} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen />
         </div>
-      </div>
-    )
+        <div className="videoInfo">
+          <h3 className="videoTitle">{this.state.videoTitle}</h3>
+          <p className="videoChannel">{this.state.video.channelTitle}</p>
+          <p className="videoDate">Published on {formatVideoTime(this.state.videoPublishedAt)}</p>
+          <p className="videoDescription">{this.state.video.description}</p>
+        </div>
+        <ul className="commentList">{this.commentList}</ul>
+      </div>;
   }
 }
 

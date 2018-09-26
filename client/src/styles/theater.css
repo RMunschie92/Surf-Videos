@@ -20,6 +20,64 @@
 }
 
 .playerContainer {
-  margin-top: 2.5em;
+  margin: 2.5em 0 2em 0;
   text-align: center;
+}
+
+.videoInfo {
+  width: 720px;
+  margin: auto;
+  padding-bottom: 1.25em;
+}
+
+.videoDescription {
+  margin-top: 1em;
+}
+
+.commentList {
+  list-style: none;
+  width: 600px;
+  margin: auto;
+}
+
+.comment {
+  display: flex;
+  border-top: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.profilePicture {
+  border-radius: 50%;
+  align-self: start;
+  margin-top: 1em;
+}
+
+.commentMain {
+  display: flex;
+  flex-direction: column;
+}
+
+.nameAndTimeAgo {
+  display: flex;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.timeAgo {
+  color: #888;
+}
+
+.nameAndTimeAgo {
+  margin: 1em 0;
+  font-size: .85em;
+}
+
+.name {
+  margin: 0 .5em;
+}
+
+.commentText {
+  margin: 0 0 1em .5em;
 }
