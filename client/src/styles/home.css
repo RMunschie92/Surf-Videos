@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400|Rock+Salt');
 
+/****************************
+  HEADER
+****************************/
+
 .header {
   display: flex;
   flex-direction: column;
@@ -33,6 +37,10 @@
   font-weight: 300;
   font-family: 'Roboto Condensed', sans-serif;
 }
+
+/****************************
+  SEARCH FORM
+****************************/
 
 form {
   display: flex;
@@ -76,6 +84,10 @@ form label {
   background-color: #B3D9FF;
 }
 
+/****************************
+  VIDEO LIST
+****************************/
+
 .videoList {
   list-style: none;
   display: flex;
@@ -102,7 +114,6 @@ form label {
   margin: 1em 1em 0 0;
   text-decoration: none;
   color: #c1c1c1;
-  /* color: #888; */
 }
 
 .cardLink:hover {
@@ -125,6 +136,10 @@ form label {
   width: 75%;
   margin-bottom: 1.25em;
 }
+
+/****************************
+  FOOTER BUTTONS
+****************************/
 
 footer {
   display: flex;
@@ -157,6 +172,10 @@ footer p {
   color: white;
   pointer-events: none;
 }
+
+/****************************
+  MEDIA QUERIES
+****************************/
 
 @media only screen and (max-width: 600px) {
   .searchForm {

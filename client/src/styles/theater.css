@@ -4,6 +4,10 @@
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+/****************************
+  HEADER
+****************************/
+
 .theaterHeader {
   display: flex;
   align-items: center;
@@ -25,7 +29,7 @@
 .homeLink {
   margin-left: 1.25em;
   text-decoration: none;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 300;
   color: #c1c1c1;
 }
 
@@ -33,10 +37,18 @@
   color: #0058ab;
 }
 
+/****************************
+  PLAYER
+****************************/
+
 .playerContainer {
   margin: 2.5em 0 2em 0;
   text-align: center;
 }
+
+/****************************
+  VIDEO INFO
+****************************/
 
 .videoInfo {
   width: 720px;
@@ -62,6 +74,10 @@
   padding-top: 1em;
   border-top: 1px solid #d6d6d6;
 }
+
+/****************************
+  COMMENTS
+****************************/
 
 .commentList {
   list-style: none;

@@ -36,7 +36,6 @@ class Theater extends Component {
             videoTitle: result.items[0].snippet.title,
             videoPublishedAt: result.items[0].snippet.publishedAt
           });
-          console.log(result.items[0].snippet);
         },
         error => {
           this.setState({ isLoaded: true, error });
@@ -103,7 +102,8 @@ class Theater extends Component {
       return timeStamp;
     }
 
-    return <div className="Theater">
+    return (
+      <div className="Theater">
         <header className="theaterHeader">
           <Link className="logoLink" to="/">
             Surf Videos
@@ -122,7 +122,8 @@ class Theater extends Component {
           <p className="videoDescription">{this.state.video.description}</p>
         </div>
         <ul className="commentList">{this.commentList}</ul>
-      </div>;
+      </div>
+    );
   }
 }
 

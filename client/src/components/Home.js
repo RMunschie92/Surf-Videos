@@ -34,7 +34,6 @@ class Home extends Component {
       q = "Surf" : 
       q = "Surf ".concat(this.state.query);
     let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=viewCount&maxResults=10&type=video&q=${q}`; 
-    console.log("q: ", q);
     fetch(url)
       .then(res => res.json())
       .then(result => {
@@ -52,7 +51,6 @@ class Home extends Component {
               nextCode: result.nextPageToken,
               greeting: getGreeting()
             });
-            console.log(result);
         }, error => {
           this.setState({ isLoaded: true, error });
         })
@@ -121,8 +119,6 @@ class Home extends Component {
   }
 
   render() {
-
-    let greeting = getGreeting();
 
     this.videoList = this.state.items.map((video, index) => (
       <li className="videoCard" key={index}>
