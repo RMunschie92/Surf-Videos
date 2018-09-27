@@ -1,22 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400|Rock+Salt');
+
+.Theater {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
 .theaterHeader {
   display: flex;
   align-items: center;
-  height: 80px;
-  padding-bottom: 20px;
+  height: 100px;
   margin-bottom: 1em;
-  background-color: #222;
+  background: #1a2980;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right,  #1a2980, #0058ab, #0081b9, #00a6ae, #00c898);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right top, #1a2980, #0058ab, #0081b9, #00a6ae, #00c898);
   color: white;
 }
 
 .logoLink {
   margin-left: 1.25em;
   text-decoration: none;
+  font-family: 'Rock Salt', sans-serif;
   color: white;
 }
 
 .homeLink {
   margin-left: 1.25em;
   text-decoration: none;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: #c1c1c1;
+}
+
+.homeLink:hover {
+  color: #0058ab;
 }
 
 .playerContainer {
@@ -30,20 +44,35 @@
   padding-bottom: 1.25em;
 }
 
+.videoInfo p {
+  font-size: .9em;
+}
+
+.videoChannel {
+  font-weight: bold;
+  margin-bottom: .5em;
+}
+
+.videoDate {
+  color: #888;
+}
+
 .videoDescription {
   margin-top: 1em;
+  padding-top: 1em;
+  border-top: 1px solid #d6d6d6;
 }
 
 .commentList {
   list-style: none;
   width: 600px;
   margin: auto;
+  padding-bottom: 2.5em;
 }
 
 .comment {
   display: flex;
   border-top: 1px solid #d6d6d6;
-  border-bottom: 1px solid #d6d6d6;
 }
 
 .profilePicture {
@@ -80,4 +109,5 @@
 
 .commentText {
   margin: 0 0 1em .5em;
+  font-size: .95em;
 }

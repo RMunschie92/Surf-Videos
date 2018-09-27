@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/theater.css';
 import timeago from "timeago.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 class Theater extends Component {
   constructor(props) {
@@ -108,9 +110,8 @@ class Theater extends Component {
           </Link>
         </header>
         <Link className="homeLink" to="/">
-          Go Home
+          <FontAwesomeIcon icon={faChevronLeft} /> Back to the Beach
         </Link>
-        <p onClick={this.handleBackClick}>Back to List</p>
         <div className="playerContainer">
           <iframe title={this.state.videoTitle} width="720" height="480" src={url} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen />
         </div>

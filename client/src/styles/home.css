@@ -1,21 +1,79 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400|Rock+Salt');
+
 .header {
-  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: 20px;
   margin-bottom: 1em;
-  text-align: center;
-  background-color: #222;
+  background: #1a2980;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right,  #1a2980, #0058ab, #0081b9, #00a6ae, #00c898);  
+  background: linear-gradient(to right top, #1a2980, #0058ab, #0081b9, #00a6ae, #00c898);
   color: white;
 }
 
+.welcome {
+  margin-bottom: 0;
+  font-size: 2em;
+  font-weight: 300;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
 .title {
-  font-size: 1.5em;
+  margin: 0;
+  font-size: 2em;
+  font-family: 'Rock Salt', sans-serif;
+}
+
+.slogan {
+  margin-top: 0;
+  font-size: 1.35em;
+  font-weight: 300;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 form {
   display: flex;
   flex-direction: column;
   margin-left: 1.25em;
-  width: 15%;
+}
+
+form label {
+  font-family: 'Rock Salt', sans-serif;
+  color: #0058ab;
+}
+
+.formMain {
+  display: flex;
+  margin-top: .25em;
+}
+
+.formMain input {
+  padding: .75em;
+  font-size: .75em;
+  margin-right: .25em;
+  width: 200px;
+  border: 1px solid #B3D9FF;
+  color: #0058ab;
+}
+
+.formMain input:focus {
+  outline: none;
+}
+
+.formMain button {
+  width: 60px;
+  height: 40px;
+  cursor: pointer;
+  background-color: #0058ab;
+  color: white;
+}
+
+.formMain button:hover {
+  color: #0058ab;
+  background-color: #B3D9FF;
 }
 
 .videoList {
@@ -26,21 +84,55 @@ form {
 }
 
 .videoCard {
-  border: 1px solid #d6d6d6;
   margin: 1em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 50%;
+  min-width: 400px;
+  max-width: 705px;
+  border: 1px solid #0058ab;
+  box-shadow: 2px 2px #00c898;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.cardLink {
+  align-self: flex-end;
+  margin: 1em 1em 0 0;
+  text-decoration: none;
+  color: #c1c1c1;
+  /* color: #888; */
+}
+
+.cardLink:hover {
+  color: #0058ab;
+}
+
+.watchSpan {
+  margin-right: .5em;
+}
+
+.cardTitle {
+  max-width: 320px
+}
+
+.thumbnail {
+  margin-bottom: 1.25em;
+}
+
+.cardDescription {
+  width: 75%;
+  margin-bottom: 1.25em;
 }
 
 footer {
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
+  align-items: center;
   margin: 1em;
   padding-bottom: .5em;
-  /* text-align: center; */
+  text-align: center;
 }
 
 footer p {
@@ -48,10 +140,31 @@ footer p {
   cursor: pointer;
 }
 
+.pageNumber {
+  color: #0058ab;
+}
+
 .show {
   display: inline-block;
+  color: #c1c1c1;
+}
+
+.show:hover {
+  color: #0058ab;
 }
 
 .hide {
-  display: none;
+  color: white;
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .searchForm {
+    margin: auto;
+    align-items: center;
+  }
+
+  .formMain label {
+    text-align: center;
+  }
 }

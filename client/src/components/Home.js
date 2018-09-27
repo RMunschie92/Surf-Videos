@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHandPeace, faVideo, faSearch, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import getGreeting from '../slogans';
 
 class Home extends Component {
   constructor(props) {
@@ -40,17 +43,20 @@ class Home extends Component {
               isLoaded: true,
               items: result.items,
               previousCode: result.prevPageToken,
-              nextCode: result.nextPageToken
+              nextCode: result.nextPageToken,
+              greeting: getGreeting()
             }) :
             this.setState({
               isLoaded: true,
               items: result.items,
-              nextCode: result.nextPageToken
+              nextCode: result.nextPageToken,
+              greeting: getGreeting()
             });
             console.log(result);
         }, error => {
           this.setState({ isLoaded: true, error });
         })
+      .then(getGreeting())
       .then(window.scrollTo(0,0));
   }
 
@@ -62,23 +68,24 @@ class Home extends Component {
     fetch(url)
       .then(res => res.json())
       .then(result => {
-        result.hasOwnProperty('prevPageToken') ?
-          this.setState({
-            isLoaded: true,
-            items: result.items,
-            previousCode: result.prevPageToken,
-            nextCode: result.nextPageToken
-          }) :
-          this.setState({
-            isLoaded: true,
-            items: result.items,
-            nextCode: result.nextPageToken
-          })
+          result.hasOwnProperty("prevPageToken") ? 
+              this.setState({
+                isLoaded: true,
+                items: result.items,
+                previousCode: result.prevPageToken,
+                nextCode: result.nextPageToken,
+                greeting: getGreeting()
+              }) : this.setState({
+                isLoaded: true,
+                items: result.items,
+                nextCode: result.nextPageToken,
+                greeting: getGreeting()
+              });
           console.log(result);
-      }, error => {
-        this.setState({ isLoaded: true, error });
-      })
-      .then(window.scrollTo(0,0));
+        }, error => {
+          this.setState({ isLoaded: true, error });
+        })
+      .then(window.scrollTo(0, 0));
   }
 
   componentDidMount() {
@@ -114,36 +121,48 @@ class Home extends Component {
   }
 
   render() {
+
+    let greeting = getGreeting();
+
     this.videoList = this.state.items.map((video, index) => (
       <li className="videoCard" key={index}>
-        <Link to={{ pathname: `/theater/${video.id.videoId}`, state: { currentVideo: video }}}>Watch</Link>
-        <h3 className="videoTitle">{video.snippet.title}</h3>
+        <Link 
+          className="cardLink"
+          to={{ pathname: `/theater/${video.id.videoId}`, state: { currentVideo: video } }}>
+          <span className="watchSpan">Watch</span>
+          <FontAwesomeIcon icon={faVideo} />
+        </Link>
+        <h3 className="cardTitle">{video.snippet.title}</h3>
         <img
+          className="thumbnail"
           src={video.snippet.thumbnails.medium.url}
           width={video.snippet.thumbnails.medium.width}
           height={video.snippet.thumbnails.medium.height}
           alt={video.snippet.title}
         />
-        <p className="description">{video.snippet.description}</p>
+        <p className="cardDescription">{video.snippet.description}</p>
       </li>
     ));
 
     return (
       <div className="Home">
         <header className="header">
-          <h1 className="title">Welcome to Surf Videos!</h1>
-          <h3 className="slogan">Hang ten, hombre</h3>
+          <h1 className="welcome">Welcome to</h1>
+          <h1 className="title">Surf Videos</h1>
+          <h3 className="slogan">{this.state.greeting} <span><FontAwesomeIcon icon={faHandPeace}/></span></h3>
         </header>
-        <form onSubmit={this.handleSubmit}>
-          <label>Surf's up, Search up!</label>
-          <input type="text" placeholder="Surf ..." value={this.state.query} onChange={this.handleChange}/>
-          <button>Search</button>
+        <form className="searchForm" onSubmit={this.handleSubmit}>
+          <label>Search!</label>
+          <div className="formMain">
+            <input type="text" placeholder="Surf ..." value={this.state.query} onChange={this.handleChange} />
+            <button><FontAwesomeIcon icon={faSearch} /></button>
+          </div>
         </form>
         <ul className="videoList">{this.videoList}</ul>
         <footer>
-          <p className={this.state.pageNumber > 1 ? 'show' : 'hide'} onClick={this.handlePreviousClick}>Previous Page</p>
-          <h3>{this.state.pageNumber}</h3>
-          <p onClick={this.handleNextClick}>Next Page</p>
+          <p className={this.state.pageNumber > 1 ? 'show' : 'hide'} onClick={this.handlePreviousClick}><span> <FontAwesomeIcon icon={faChevronLeft} /> </span>Prev</p>
+          <h3 className="pageNumber">{this.state.pageNumber}</h3>
+          <p className="show" onClick={this.handleNextClick}>Next<span> <FontAwesomeIcon icon={faChevronRight} /></span></p>
         </footer>
       </div>
     ) 
