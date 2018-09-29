@@ -37,12 +37,10 @@ class Home extends Component {
     this.state.query === "" ? 
       q = "Surf" : 
       q = "Surf ".concat(this.state.query);
-    console.log("Sort By: ", this.state.sortBy);
     let filter;
     this.state.sortBy === "" ?
       filter = "relevance" :
       filter = this.state.sortBy;
-    console.log("Filter: ", filter);
     let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=${filter}&maxResults=10&type=video&q=${q}`; 
     fetch(url)
       .then(res => res.json())
