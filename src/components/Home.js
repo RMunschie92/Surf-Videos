@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandPeace, faVideo, faSearch, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faHandPeace, faChevronDown, faVideo, faSearch, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import getGreeting from '../slogans';
 
 class Home extends Component {
@@ -13,6 +13,8 @@ class Home extends Component {
       error: null,
       isLoaded: false,
       query: '',
+      showSort: false,
+      sortBy: '',
       items: [],
       pageNumber: 1,
       currentPageCode: '',
@@ -22,6 +24,8 @@ class Home extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSortArrowClick = this.handleSortArrowClick.bind(this);
+    this.handleSort = this.handleSort.bind(this);
     this.handlePreviousClick = this.handlePreviousClick.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
   }
@@ -33,7 +37,13 @@ class Home extends Component {
     this.state.query === "" ? 
       q = "Surf" : 
       q = "Surf ".concat(this.state.query);
-    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=viewCount&maxResults=10&type=video&q=${q}`; 
+    console.log("Sort By: ", this.state.sortBy);
+    let filter;
+    this.state.sortBy === "" ?
+      filter = "relevance" :
+      filter = this.state.sortBy;
+    console.log("Filter: ", filter);
+    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=${filter}&maxResults=10&type=video&q=${q}`; 
     fetch(url)
       .then(res => res.json())
       .then(result => {
@@ -62,7 +72,7 @@ class Home extends Component {
     let q = "Surf ".concat(this.state.query);
     let tokenCode;
     direction === 'previous' ? tokenCode = this.state.previousCode : tokenCode = this.state.nextCode;
-    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=viewCount&pageToken=${tokenCode}&maxResults=10&type=video&q=${q}`
+    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=${this.state.sortBy}&pageToken=${tokenCode}&maxResults=10&type=video&q=${q}`
     fetch(url)
       .then(res => res.json())
       .then(result => {
@@ -98,6 +108,21 @@ class Home extends Component {
     e.preventDefault();
     this.setState({ pageNumber: 1 });
     this.fetchData();
+  }
+
+  handleSortArrowClick() {
+    let opposite = !this.state.showSort
+    this.setState({ showSort: opposite });
+  }
+
+  handleSort(e, filter) {
+    if (this.state.sortBy !== filter) {
+      this.setState({
+        sortBy: filter
+      }, function () {
+        this.fetchData();
+      }.bind(this));
+    }
   }
 
   handlePreviousClick() {
@@ -145,20 +170,50 @@ class Home extends Component {
         <header className="header">
           <h1 className="welcome">Welcome to</h1>
           <h1 className="title">Surf Videos</h1>
-          <h3 className="slogan">{this.state.greeting} <span><FontAwesomeIcon icon={faHandPeace}/></span></h3>
+          <h3 className="slogan">
+            {this.state.greeting} <span>
+              <FontAwesomeIcon icon={faHandPeace} />
+            </span>
+          </h3>
         </header>
-        <form className="searchForm" onSubmit={this.handleSubmit}>
-          <label>Search!</label>
-          <div className="formMain">
-            <input type="text" placeholder="Surf ..." value={this.state.query} onChange={this.handleChange} />
-            <button><FontAwesomeIcon icon={faSearch} /></button>
+        <div className="searchAndSortBy">
+          <form className="searchForm" onSubmit={this.handleSubmit}>
+            <label>Search</label>
+            <div className="formMain">
+              <input type="text" placeholder="Surf ..." value={this.state.query} onChange={this.handleChange} />
+              <button>
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          </form>
+          <div className="sortByDiv">
+            <p>Sort <span><FontAwesomeIcon className="sortDownArrow" icon={faChevronDown} onClick={this.handleSortArrowClick}/></span></p>
+            <ul className={this.state.showSort ? 'showList' : 'hideList'}>
+              <li className={this.state.sortBy === "" || this.state.sortBy === 'relevance' ? 'currentFilter' : 'notCurrentFilter'} onClick={(e) => this.handleSort(e, 'relevance')}>Relevance</li>
+              <li className={this.state.sortBy === 'date' ? 'currentFilter' : 'notCurrentFilter'} onClick={(e) => this.handleSort(e, 'date')}>Upload date</li>
+              <li className={this.state.sortBy === 'viewCount' ? 'currentFilter' : 'notCurrentFilter'} onClick={(e) => this.handleSort(e, 'viewCount')}>View count</li>
+              <li className={this.state.sortBy === 'rating' ? 'currentFilter' : 'notCurrentFilter'} onClick={(e) => this.handleSort(e, 'rating')}>Rating</li>
+              <li className={this.state.sortBy === 'title' ? 'currentFilter' : 'notCurrentFilter'} onClick={(e) => this.handleSort(e, 'title')}>Title</li>
+            </ul>
           </div>
-        </form>
+        </div>
         <ul className="videoList">{this.videoList}</ul>
         <footer>
-          <p className={this.state.pageNumber > 1 ? 'show' : 'hide'} onClick={this.handlePreviousClick}><span> <FontAwesomeIcon icon={faChevronLeft} /> </span>Prev</p>
+          <p className={this.state.pageNumber > 1 ? "show" : "hide"} onClick={this.handlePreviousClick}>
+            <span>
+              {" "}
+              <FontAwesomeIcon icon={faChevronLeft} />{" "}
+            </span>
+            Prev
+          </p>
           <h3 className="pageNumber">{this.state.pageNumber}</h3>
-          <p className="show" onClick={this.handleNextClick}>Next<span> <FontAwesomeIcon icon={faChevronRight} /></span></p>
+          <p className="show" onClick={this.handleNextClick}>
+            Next
+            <span>
+              {" "}
+              <FontAwesomeIcon icon={faChevronRight} />
+            </span>
+          </p>
         </footer>
       </div>
     ) 

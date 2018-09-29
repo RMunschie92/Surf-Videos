@@ -39,6 +39,15 @@
 }
 
 /****************************
+  SEARCH/SORT BY DIV
+****************************/
+
+.searchAndSortBy {
+  display: flex;
+  justify-content: space-between;
+}
+
+/****************************
   SEARCH FORM
 ****************************/
 
@@ -85,6 +94,51 @@ form label {
 }
 
 /****************************
+  SORT DROPDOWN
+****************************/
+
+.sortByDiv {
+  margin-right: 1.25em;
+}
+
+.sortByDiv p {
+  font-family: 'Rock Salt', sans-serif;
+  color: #0058ab;
+}
+
+.sortDownArrow {
+  color: #8e8e8e;
+  cursor: pointer;
+}
+
+.sortDownArrow:hover {
+  color: #0058ab;
+}
+
+.hideList {
+  display: none;
+}
+
+.showList li {
+  list-style: none;
+  margin-bottom: .35em; 
+}
+
+.showList li:hover {
+  cursor: pointer;
+}
+
+.currentFilter {
+  font-weight: 600;
+  color: #0058ab;
+}
+
+.notCurrentFilter {
+  font-weight: 300;
+  color: #8e8e8e;
+}
+
+/****************************
   VIDEO LIST
 ****************************/
 
@@ -105,7 +159,7 @@ form label {
   min-width: 400px;
   max-width: 705px;
   border: 1px solid #0058ab;
-  box-shadow: 2px 2px #00c898;
+  box-shadow: 4px 4px #00c898;
   font-family: 'Roboto Condensed', sans-serif;
 }
 
@@ -113,7 +167,7 @@ form label {
   align-self: flex-end;
   margin: 1em 1em 0 0;
   text-decoration: none;
-  color: #c1c1c1;
+  color: #8e8e8e;
 }
 
 .cardLink:hover {
@@ -161,7 +215,7 @@ footer p {
 
 .show {
   display: inline-block;
-  color: #c1c1c1;
+  color: #8e8e8e;
 }
 
 .show:hover {
@@ -178,6 +232,10 @@ footer p {
 ****************************/
 
 @media only screen and (max-width: 600px) {
+  .searchAndSortBy {
+    flex-direction: column;
+  }
+
   .searchForm {
     margin: auto;
     align-items: center;
@@ -185,5 +243,10 @@ footer p {
 
   .formMain label {
     text-align: center;
+  }
+
+  .sortByDiv {
+    padding-top: 1.5em;
+    margin: auto;
   }
 }
