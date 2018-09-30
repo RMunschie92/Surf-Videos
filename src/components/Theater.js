@@ -24,7 +24,6 @@ class Theater extends Component {
       this.videoId = this.props.location.state.currentVideo.id.videoId;
     } else {
       this.videoId = this.props.history.location.pathname.slice(9);
-      console.log(this.videoId);
     }
   }
 

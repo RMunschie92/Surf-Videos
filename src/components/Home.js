@@ -59,7 +59,6 @@ class Home extends Component {
               nextCode: result.nextPageToken,
               greeting: getGreeting()
             });
-            console.log(result.items);
         }, error => {
           this.setState({ isLoaded: true, error });
         })
