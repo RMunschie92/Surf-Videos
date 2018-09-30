@@ -146,9 +146,13 @@ class Home extends Component {
 
     this.videoList = this.state.items.map((video, index) => (
       <li className="videoCard" key={index}>
-        <Link 
+        <Link
           className="cardLink"
-          to={{ pathname: `/theater/${video.id.videoId}`, state: { currentVideo: video } }}>
+          to={{
+            pathname: `/theater/${video.id.videoId}`,
+            state: { currentVideo: video }
+          }}
+        >
           <span className="watchSpan">Watch</span>
           <FontAwesomeIcon icon={faVideo} />
         </Link>

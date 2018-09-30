@@ -19,11 +19,16 @@ class Theater extends Component {
     };
 
     this.handleBackClick = this.handleBackClick.bind(this);
+
+    if (this.props.location.state) {
+      this.videoId = this.props.location.state.currentVideo.id.videoId;
+    } else {
+      this.videoId = this.props.history.location.pathname.slice(9);
+      console.log(this.videoId);
+    }
   }
 
   API_KEY = "AIzaSyD1cHSIGEpQiTyYr-cuYiWu4cbV7YXIz24";
-
-  videoId = this.props.location.state.currentVideo.id.videoId;
 
   fetchVideo() {
     fetch(`https://www.googleapis.com/youtube/v3/videos?key=${this.API_KEY}&id=${this.videoId}&part=player,snippet&type=video`)
