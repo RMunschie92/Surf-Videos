@@ -66,6 +66,7 @@ class Theater extends Component {
   componentDidMount() {
     this.fetchVideo();
     this.fetchComments();
+    window.scrollTo(0,0);
   }
 
   handleBackClick() {
