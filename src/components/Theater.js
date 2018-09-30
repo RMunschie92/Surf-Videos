@@ -113,7 +113,7 @@ class Theater extends Component {
           <FontAwesomeIcon icon={faChevronLeft} /> Back to the Beach
         </Link>
         <div className="playerContainer">
-          <iframe title={this.state.videoTitle} width="720" height="480" src={url} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen />
+          <iframe title={this.state.videoTitle} src={url} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen />
         </div>
         <div className="videoInfo">
           <h3 className="videoTitle">{this.state.videoTitle}</h3>

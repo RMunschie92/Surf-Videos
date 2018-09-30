@@ -46,6 +46,11 @@
   text-align: center;
 }
 
+.playerContainer iframe {
+  width: 720px;
+  height: 480px;
+}
+
 /****************************
   VIDEO INFO
 ****************************/
@@ -126,4 +131,42 @@
 .commentText {
   margin: 0 0 1em .5em;
   font-size: .95em;
+}
+
+/****************************
+  COMMENTS
+****************************/
+
+@media only screen and (max-width: 770px) {
+  .playerContainer iframe {
+    width: 480px;
+    height: 360px;
+  }
+
+  .videoInfo {
+    width: 480px;
+  }
+
+  .commentList {
+    width: 400px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .logoLink {
+    margin: auto;
+  }
+
+  .playerContainer iframe {
+    width: 320px;
+    height: 180px;
+  }
+
+  .videoInfo {
+    width: 320px;
+  }
+
+  .commentList {
+    width: 270px;
+  }
 }
