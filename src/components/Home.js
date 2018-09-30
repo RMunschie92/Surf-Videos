@@ -41,7 +41,7 @@ class Home extends Component {
     this.state.sortBy === "" ?
       filter = "relevance" :
       filter = this.state.sortBy;
-    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=${filter}&maxResults=10&type=video&q=${q}`; 
+    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=${filter}&maxResults=10&type=video&q=${q}`;
     fetch(url)
       .then(res => res.json())
       .then(result => {
@@ -59,6 +59,7 @@ class Home extends Component {
               nextCode: result.nextPageToken,
               greeting: getGreeting()
             });
+            console.log(result);
         }, error => {
           this.setState({ isLoaded: true, error });
         })
@@ -68,9 +69,12 @@ class Home extends Component {
 
   fetchPage(direction) {
     let q = "Surf ".concat(this.state.query);
+    let filter;
+    this.state.sortBy === "" ? (filter = "relevance") : (filter = this.state.sortBy);
     let tokenCode;
     direction === 'previous' ? tokenCode = this.state.previousCode : tokenCode = this.state.nextCode;
-    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=${this.state.sortBy}&pageToken=${tokenCode}&maxResults=10&type=video&q=${q}`
+    let url = `https://www.googleapis.com/youtube/v3/search?key=${this.API_KEY}&part=snippet,id&order=${filter}&pageToken=${tokenCode}&maxResults=10&type=video&q=${q}`
+    console.log(url);
     fetch(url)
       .then(res => res.json())
       .then(result => {
